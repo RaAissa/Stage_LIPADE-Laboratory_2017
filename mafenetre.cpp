@@ -27,39 +27,48 @@ MaFenetre::MaFenetre() : QWidget(){
     height_video1 = 0;
     height_video2 = 0;
     height_image = 0;
-    setFixedHeight(1040);
+
+    setFixedSize(1850,1000);
     imaFolder = std::vector<std::string>(folder, folder +  sizeof(folder) / sizeof(std::string));
     // Construction du bouton "ouvrir"
     bouton_ouvrir = new QPushButton("open a video", this);
-    bouton_ouvrir->setFont(QFont("Comic Sans MS", 14));
+    bouton_ouvrir->setFont(QFont("Liberation Serif", 14));
     bouton_ouvrir->setCursor(Qt::PointingHandCursor);
+    bouton_ouvrir->setFixedSize(100,30);
+
     //Ouverture de la boite de recherche de la vidéo
     QObject::connect(bouton_ouvrir, SIGNAL(clicked()), this, SLOT(ouvrirDialogue()));
     //Construction du bouton "lancer"
     bouton_lancer = new QPushButton("Launch");
-    bouton_lancer->setFont(QFont("Comic Sans MS", 14));
+    bouton_lancer->setFont(QFont("Liberation Serif", 14));
     bouton_lancer->setCursor(Qt::PointingHandCursor);
+    bouton_lancer->setFixedSize(100,30);
+
     //Modifié
+
 
 
     // lecture direct des tifs
     bouton_tiff = new QPushButton("Open a TIF");
-    bouton_tiff->setFont(QFont("Comic Sans MS", 14));
+    bouton_tiff->setFont(QFont("Liberation Serif", 14));
     bouton_tiff->setCursor(Qt::PointingHandCursor);
+    bouton_tiff->setFixedSize(100,30);
+
     QObject::connect(bouton_tiff, SIGNAL(clicked()), this, SLOT(ouvrirtiff()));
     //Liaison du bouton au slot qui permet de lancer le traitement de la video
     QObject::connect(bouton_lancer, SIGNAL(clicked()), this, SLOT(lancer()));
     //Construction du bouton "enregistrer"
     bouton_enregistrer = new QPushButton("Save");
-    bouton_enregistrer->setFont(QFont("Comic Sans MS", 14));
+    bouton_enregistrer->setFont(QFont("Liberation Serif", 14));
     bouton_enregistrer->setCursor(Qt::PointingHandCursor);
+    bouton_enregistrer->setFixedSize(100,30);
 
     //Liaison du bouton au slot qui permet d'enregistrer la video
     QObject::connect(bouton_enregistrer, SIGNAL(clicked()), this, SLOT(enregistrer()));
 
     //Construction du bouton "jouer"
     bouton_play = new QPushButton("Play");
-    bouton_play->setFont(QFont("Comic Sans MS", 14));
+    bouton_play->setFont(QFont("Liberation Serif", 14));
     bouton_play->setCursor(Qt::PointingHandCursor);
 
     //Liaison du bouton au slot qui permet d'enregistrer la video
@@ -67,8 +76,9 @@ MaFenetre::MaFenetre() : QWidget(){
 
     //Construction du bouton "ouvrir image"
     bouton_ouvrirImage = new QPushButton("Open a picture");
-    bouton_ouvrirImage->setFont(QFont("Comic Sans MS", 14));
+    bouton_ouvrirImage->setFont(QFont("Liberation Serif", 14));
     bouton_ouvrirImage->setCursor(Qt::PointingHandCursor);
+    bouton_ouvrirImage->setFixedSize(100,30);
 
     //Liaison du bouton au slot qui permet d'enregistrer la video
     QObject::connect(bouton_ouvrirImage, SIGNAL(clicked()), this, SLOT(ouvrirImage()));
@@ -80,17 +90,24 @@ MaFenetre::MaFenetre() : QWidget(){
 
     //Construction du bouton "Ouvrir video"
     bouton_ouvrirVideo = new QPushButton("Open a video");
-    bouton_ouvrirVideo->setFont(QFont("Comic Sans MS", 14));
+    bouton_ouvrirVideo->setFont(QFont("Liberation Serif", 14));
     bouton_ouvrirVideo->setCursor(Qt::PointingHandCursor);
+        bouton_ouvrirVideo->setFixedSize(100,30);
 
     //Liaison du bouton au slot qui permet d'ouvrir la video pour inpainitng
     QObject::connect(bouton_ouvrirVideo, SIGNAL(clicked()), this, SLOT(ouvrirVideoInpainting()));
 
     //Construction des labels pour les videos initiale et traitee
     image_initiale = QImage(100, 100, QImage::Format_ARGB32);
+
     image_initiale.fill(qRgb(0, 0, 0));
     label_videoInitiale = new QLabel("Vidéo initiale",this);
     label_videoInitiale->setPixmap(QPixmap::fromImage(image_initiale));
+
+
+//    label_videoInitiale->setScaledContents(true);
+//           label_videoInitiale->adjustSize();
+
 
     // label_videoInitiale->geometry().x
     image_traitee = QImage(100, 100, QImage::Format_ARGB32);
@@ -132,6 +149,8 @@ MaFenetre::MaFenetre() : QWidget(){
 
     //Construction de la liste deroulante
     liste = new QComboBox(this);
+    liste->setFont(QFont("Liberation Serif", 12));
+
     liste->addItem("Noir et Blanc");
     liste->addItem("Contours");
     liste->addItem("Flouter");
@@ -168,6 +187,8 @@ MaFenetre::MaFenetre() : QWidget(){
 
     //Modifié
     liste1 = new QComboBox(this);
+    liste1->setFont(QFont("Liberation Serif", 14));
+    bouton_ouvrirVideo->setFixedSize(120,30);
     liste1->addItem("50 Trames");
     liste1->addItem("100");
     liste1->addItem("300");
@@ -177,6 +198,7 @@ MaFenetre::MaFenetre() : QWidget(){
 
     //modifié
     liste2 = new QComboBox(this);
+    liste2->setFont(QFont("Liberation Serif", 14));
     liste2->addItem("Tracking/1 pixel");
     liste2->addItem("Tracking/3 pixel");
     liste2->addItem("Tracking/5 pixels");
@@ -186,6 +208,7 @@ MaFenetre::MaFenetre() : QWidget(){
     QObject::connect(liste2, SIGNAL(currentIndexChanged(int)),this, SLOT(afficher2(int)));
 
     liste3 = new QComboBox(this);
+    liste3->setFont(QFont("Liberation Serif", 14));
     liste3->addItem("No overlap");
     liste3->addItem("Overlap 1 trame");
     liste3->addItem("overlap 2 trame");
@@ -193,6 +216,8 @@ MaFenetre::MaFenetre() : QWidget(){
     QObject::connect(liste3, SIGNAL(currentIndexChanged(int)),this, SLOT(afficher3(int)));
     liste4 = new QComboBox(this);
     //int listr2[]={3,5,7,9,15,21,25,30,35,40,45,49,100};
+    liste4->setFont(QFont("Liberation Serif", 14));
+    liste4->setFixedSize(120,30);
     liste4->addItem("winsize:3");
     liste4->addItem("5");
     liste4->addItem("7");
@@ -215,6 +240,7 @@ MaFenetre::MaFenetre() : QWidget(){
     QObject::connect(liste4, SIGNAL(currentIndexChanged(int)),this, SLOT(afficher4(int)));
      liste5 = new QComboBox(this);
     liste5->addItem("Kmeans Index:2");
+    liste5->setFont(QFont("Liberation Serif", 14));
     liste5->addItem("3");
     liste5->addItem("4");
     liste5->addItem("5");
@@ -226,20 +252,33 @@ MaFenetre::MaFenetre() : QWidget(){
     liste5->addItem("11");
     liste5->addItem("12");
      QObject::connect(liste5, SIGNAL(currentIndexChanged(int)),this, SLOT(afficher5(int)));
-    //Ajout des widgets au layout
-    layout = new QGridLayout;
-    layout->addWidget(bouton_ouvrir,0,0);
-    layout->addWidget(liste,0,1);
-    layout->addWidget(bouton_lancer,0,2);
-    layout->addWidget(bouton_ouvrirImage, 0,3);
-    layout->addWidget(bouton_ouvrirVideo, 0,4);
-    layout->addWidget(bouton_tiff, 0,5);
 
-    layout->addWidget(label_videoInitiale, 1,0);
-    layout->addWidget(label_videoTraitee, 1,1);
-    layout->addWidget(label_image_inpainting, 1, 3);
-    layout->addWidget(label_videoInpainting, 1,4);
-    layout->addWidget(liste4,1,5);
+
+//   onglets
+     onglets = new QTabWidget(this);
+     onglets->addTab(label_videoInitiale, "Image Originale");
+     onglets->addTab(label_videoTraitee, "Image_traitée");
+     onglets->addTab(label_image_inpainting, "image inpaité");
+     onglets->addTab(label_videoInpainting, "vidéo inpaintée");
+    //Ajout des widgets au layout
+
+
+     layout = new QGridLayout;
+     layout->addWidget(bouton_ouvrir,0,0);
+     layout->addWidget(liste,0,1);
+     layout->addWidget(bouton_lancer,0,2);
+     layout->addWidget(bouton_ouvrirImage, 0,3);
+     layout->addWidget(bouton_ouvrirVideo, 0,4);
+     layout->addWidget(bouton_tiff, 0,5);
+
+     layout1 = new QGridLayout;
+     onglets->setGeometry(10,50, 1700, 800);
+     layout1->addWidget(onglets);
+
+//    layout->addWidget(label_videoInitiale, 1,0);
+//    layout->addWidget(label_videoTraitee, 1,1);
+//    layout->addWidget(label_image_inpainting, 1, 3);
+//    layout->addWidget(label_videoInpainting, 1,4);
 
     layout->addWidget(label_positionPremierPoint,2,0);
     layout->addWidget(label_positionPremierPointImage, 2, 3);
@@ -256,13 +295,10 @@ MaFenetre::MaFenetre() : QWidget(){
     layout->addWidget(bouton_play,4 ,3);
     layout->addWidget(liste1, 4,4);
     layout->addWidget(liste2, 4,5);
-      layout->addWidget(liste5, 4,6);
+    layout->addWidget(liste5, 4,6);
+    layout->addWidget(liste4,5,0);
 
-
-
-    //modifié
-     //  layout->addWidget(checkbox, 0,6);
-    this->setWindowTitle("Analyse de l'impact du contenu d'une video sur l'impression visuelle");
+    this->setWindowTitle("Analyse de l'impact du contenu d'une video sur l'impression visuelle:analyse du mouvement");
     //Ajout du layout a la fenetre
     setLayout(layout);
 }
@@ -443,7 +479,7 @@ slider->setRange(1, taillevideo);
     cout << "Taille de la fenetre = " << dWidth << "x" << dHeight << endl;
     cout << "Taille de la video : " << taillevideo2 << endl;
     label_videoInpainting->setPixmap(QPixmap((nouveauDossierVideo + "/frame1.tif").c_str()));
-    label_videoInitiale->setGeometry(11, 11,500,500);
+    label_videoInitiale->setGeometry(11, 11,100,100);
 }
 
 //Slot du changement de la position du slider
@@ -543,7 +579,7 @@ void MaFenetre::lancer(){
 
 
     if(positionSwitch==25){
-
+label_videoInitiale->setPixmap(QPixmap(cv::format((nouveauDossier + "/frame1.tif").c_str()).c_str()));
     if(w>768 && h>576){
         label_videoTraitee->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/Kmeans2d/resize/frame0.tif").c_str()).c_str()));
         label_videoTraitee->repaint();
@@ -581,7 +617,7 @@ void MaFenetre::play(){
         }
 
         if(positionSwitch==25){
-    label_videoInitiale->setPixmap(QPixmap(cv::format((nouveauDossier+"/Kmeans2d/frame%d.tif").c_str(), i).c_str()));
+    label_videoInitiale->setPixmap(QPixmap(cv::format((nouveauDossier+"/frame%d.tif").c_str(), i).c_str()));
         if(w>768 && h>576){
           label_videoTraitee->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/Kmeans2d/resize/frame%d.tif").c_str(), i).c_str()));
 

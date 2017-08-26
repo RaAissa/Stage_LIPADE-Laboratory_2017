@@ -39,9 +39,10 @@ class MaFenetre : public QWidget // On hérite de QWidget (IMPORTANT)
 private:
     //modifié
      QCheckBox *checkbox;
-
+    QTabWidget  *onglets;
     QPoint point;
     QGridLayout *layout;
+     QGridLayout *layout1;
     QPushButton *bouton_ouvrir;
     QPushButton *bouton_lancer;
     QPushButton *bouton_enregistrer;
@@ -69,6 +70,11 @@ private:
     QLabel *label_positionSecondPointImage;
     QLabel *label_positionPremierPointVideo;
     QLabel *label_positionSecondPointVideo;
+
+
+
+
+
 
     QSlider *slider;
     QLCDNumber *lcd;
