@@ -1,3 +1,10 @@
+
+/*
+ * Auteur: Raouf AISSA
+ * Date de creation: 01/03/2017
+ */
+
+
 #include "etoile_k.h"
 #include <math.h>
 #include <opencv2/core/core.hpp>

@@ -1,11 +1,5 @@
-
-/*
- * Auteur: Raouf AISSA
- * Date de creation: 01/03/2017
- */
 #ifndef ETOILE_k_H
 #define ETOILE_k_H
-
 
 
 #include <opencv2/opencv.hpp>

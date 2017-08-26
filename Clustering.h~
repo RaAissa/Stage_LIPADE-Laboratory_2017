@@ -1,8 +1,3 @@
-
-/*
- * Auteur: Raouf AISSA
- * Date de creation: 01/03/2017
- */
 #include <opencv2/opencv.hpp>
 #include "opencv/highgui.h"
 #include <opencv2/core/core.hpp>

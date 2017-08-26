@@ -1,3 +1,8 @@
+
+/*
+ * Auteur: Raouf AISSA
+ * Date de creation: 01/03/2017
+ */
 #include "Etoile.h"
 #include <math.h>
 #include <opencv2/core/core.hpp>

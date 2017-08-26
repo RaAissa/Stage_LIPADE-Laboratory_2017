@@ -1,5 +1,12 @@
 #include "traitement.h"
-
+/*
+ * Auteur : Marah Poos
+ * Date de création: 01/01/2016
+ * Modifiée par: Van Cuong KIEU
+ * Date de modification: 30/09/2016
+ * Modifié par: Raouf AISSA
+ * Date de modification: 01/03/2017
+ */
 
 
 Traitement::Traitement()
