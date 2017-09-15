@@ -32,6 +32,9 @@
 #include <QFileInfo>
 #include <sys/stat.h>
 #include <cstdlib>
+
+
+
 class MaFenetre : public QWidget // On hérite de QWidget (IMPORTANT)
 {
     Q_OBJECT
@@ -58,6 +61,9 @@ private:
     QPushButton *bouton_ouvrirVideo;
     QImage image_initiale;
     QImage image_traitee;
+    QImage image_evaluation;
+    QLabel *label_image_evaluation;
+
     QLabel *label_videoInitiale;
     QLabel *label_videoTraitee;
     QImage image_inpainting;
@@ -70,8 +76,11 @@ private:
     QLabel *label_positionSecondPointImage;
     QLabel *label_positionPremierPointVideo;
     QLabel *label_positionSecondPointVideo;
+    QImage image_K_means_nD_t;
+    QLabel *label_K_means_nD_t;
 
-
+    QImage image_flot_optique;
+    QLabel *label_flot_optique;
 
 
 

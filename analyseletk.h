@@ -20,6 +20,7 @@ class Analyseletk
 public:
 
     Analyseletk();
+
    int taille(vector<Mat>allImages);
     void evaluation_inertie_intra();
     void runAnalyseletk( vector <QPoint> points,int&posiotionw,int&positionswitch,bool &premiere_fois,vector<Mat> allImages,int &position,int taillevideo, string nouveauDossier, string traitement,int &ind_k);
@@ -37,6 +38,7 @@ private:
     const QWidget* _maFenetre;
     vector<Mat> all_Images;
     int t;
+   float dt=0;
     int m;
     QLabel *label_videoInitiale;
 };

@@ -57,7 +57,8 @@ SOURCES += main.cpp \
     analyseletk.cpp \
     Etoile.cpp \
     MeanShift.cpp \
-    etoile_k.cpp
+    etoile_k.cpp \
+    evaluation_class.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 #include(Other files/qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -108,6 +109,7 @@ HEADERS += \
     MeanShift.h \
     Clustering.h \
     etoile_k.h \
-    kmean.h
+    kmean.h \
+    evaluation_class.h
 
 QMAKE_LFLAGS += -Wl,-rpath=./lib

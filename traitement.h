@@ -28,8 +28,9 @@
 #include "analyseletk.h"
 #include "Etoile.h"
 #include "etoile_k.h"
+#include "evaluation_class.h"
 #include <map>
-
+#include"Bibliotheque.h"
 
 class Traitement
 {

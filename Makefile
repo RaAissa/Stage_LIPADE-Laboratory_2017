@@ -63,7 +63,8 @@ SOURCES       = main.cpp \
 		analyseletk.cpp \
 		Etoile.cpp \
 		MeanShift.cpp \
-		etoile_k.cpp moc_mafenetre.cpp
+		etoile_k.cpp \
+		evaluation_class.cpp moc_mafenetre.cpp
 OBJECTS       = main.o \
 		mafenetre.o \
 		tool.o \
@@ -83,6 +84,7 @@ OBJECTS       = main.o \
 		Etoile.o \
 		MeanShift.o \
 		etoile_k.o \
+		evaluation_class.o \
 		moc_mafenetre.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/shell-unix.conf \
@@ -314,7 +316,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/stage1.0.0 || mkdir -p .tmp/stage1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/stage1.0.0/ && $(COPY_FILE) --parents mafenetre.h tool.h graphcut.h dossier.h video.h traitement.h inpainter.h inpainting.h inpaintingimage.h lucaskanade.h lucaskanadedirection.h lucaskanadecartedechaleur.h lucaskanadedirectionsintensite.h inpaintinginverser.h analyseletk.h Etoile.h Bibliotheque.h MeanShift.h Clustering.h etoile_k.h kmean.h .tmp/stage1.0.0/ && $(COPY_FILE) --parents main.cpp mafenetre.cpp tool.cpp graphcut.cpp inpainting.cpp dossier.cpp video.cpp traitement.cpp inpainter.cpp inpaintingimage.cpp lucaskanade.cpp lucaskanadedirection.cpp lucaskanadecartedechaleur.cpp lucaskanadedirectionsintensite.cpp inpaintinginverser.cpp analyseletk.cpp Etoile.cpp MeanShift.cpp etoile_k.cpp .tmp/stage1.0.0/ && (cd `dirname .tmp/stage1.0.0` && $(TAR) stage1.0.0.tar stage1.0.0 && $(COMPRESS) stage1.0.0.tar) && $(MOVE) `dirname .tmp/stage1.0.0`/stage1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/stage1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/stage1.0.0/ && $(COPY_FILE) --parents mafenetre.h tool.h graphcut.h dossier.h video.h traitement.h inpainter.h inpainting.h inpaintingimage.h lucaskanade.h lucaskanadedirection.h lucaskanadecartedechaleur.h lucaskanadedirectionsintensite.h inpaintinginverser.h analyseletk.h Etoile.h Bibliotheque.h MeanShift.h Clustering.h etoile_k.h kmean.h evaluation_class.h .tmp/stage1.0.0/ && $(COPY_FILE) --parents main.cpp mafenetre.cpp tool.cpp graphcut.cpp inpainting.cpp dossier.cpp video.cpp traitement.cpp inpainter.cpp inpaintingimage.cpp lucaskanade.cpp lucaskanadedirection.cpp lucaskanadecartedechaleur.cpp lucaskanadedirectionsintensite.cpp inpaintinginverser.cpp analyseletk.cpp Etoile.cpp MeanShift.cpp etoile_k.cpp evaluation_class.cpp .tmp/stage1.0.0/ && (cd `dirname .tmp/stage1.0.0` && $(TAR) stage1.0.0.tar stage1.0.0 && $(COMPRESS) stage1.0.0.tar) && $(MOVE) `dirname .tmp/stage1.0.0`/stage1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/stage1.0.0
 
 
 clean:compiler_clean 
@@ -1553,6 +1555,9 @@ etoile_k.o: etoile_k.cpp etoile_k.h \
 		dossier.h \
 		lucaskanadecartedechaleur.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o etoile_k.o etoile_k.cpp
+
+evaluation_class.o: evaluation_class.cpp evaluation_class.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o evaluation_class.o evaluation_class.cpp
 
 moc_mafenetre.o: moc_mafenetre.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mafenetre.o moc_mafenetre.cpp

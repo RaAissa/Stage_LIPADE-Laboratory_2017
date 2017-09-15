@@ -14,7 +14,7 @@
 #include <list>
 #include <ctype.h>
 using namespace std;
-
+#include <QFileInfo>
 #include "opencv2/opencv.hpp"
 #include "opencv2/video/tracking.hpp"
 #include <opencv2/imgproc/imgproc.hpp>
@@ -23,7 +23,7 @@ using namespace std;
 #include <opencv2/video/video.hpp>
 using namespace cv;
 
+#include <sstream>
 
-
-
-
+#include <string>
+#include <time.h>

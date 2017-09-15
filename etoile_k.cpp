@@ -86,6 +86,7 @@ creer_images(nouveauDossier,traitement);
         Dossier::creerDossier(nouveauDossier + "/" + traitement + "/Traits");
         Dossier::creerDossier(nouveauDossier + "/" + traitement + "/Kmeans");
         Dossier::creerDossier(nouveauDossier + "/" + traitement + "/Kmeans2d");
+        Dossier::creerDossier(nouveauDossier + "/" + traitement + "/Kmeans2d/resize");
         premiere_fois=false;
     }
 
@@ -289,7 +290,7 @@ cout<<"########"<<endl;
                     H =(float) angle;
                     LucasKanadeCarteDeChaleur *carte = new LucasKanadeCarteDeChaleur();
                     carte->HSVtoRGB(&r, &g, &b, H);
-                    line(imgC, Point(centre_gravite.x , centre_gravite.y), Point(x_ro, y_ro), Scalar (255,255,255), 1.5, CV_AA);
+                    line(imgC, Point(centre_gravite.x , centre_gravite.y), Point(x_ro, y_ro), Scalar (255,255,255 /*b*255,g *255,r *255*/), 1.5, CV_AA);
                 }
                 //}
                 size1++;
@@ -460,7 +461,7 @@ void etoile_k::Kmeans_blobs(vector<Mat>allImages,cv::Mat &img1,cv::Mat&confusion
         rectangle(dist, Rect(centre_gravite.x, centre_gravite.y,20,20),colorTab[clusterIdx],-1 );
     }
 
-    imwrite(cv::format((nouveauDossier + "/" + traitement + "/Kmeans2d/frame%d.tif").c_str(), 5).c_str(), dist);
+    imwrite(cv::format((nouveauDossier + "/" + traitement + "/Kmeans/frame%d.tif").c_str(), 5).c_str(), dist);
     img.release();
     dist.release();
 //   centers1.release();
@@ -528,7 +529,8 @@ vector<int> etoile_k::Kmeans_blobs1(vector<Mat>allImages,std::vector<int>&Labels
 //               }
            size_1++;
         }
-        imwrite(cv::format((nouveauDossier + "/" + traitement + "/Kmeans/frame%d.tif").c_str(), m).c_str(), dist);
+        imwrite(cv::format((nouveauDossier + "/" + traitement + "/Kmeans2d/frame%d.tif").c_str(), m).c_str(), dist);
+          imwrite(cv::format((nouveauDossier + "/" + traitement + "/Kmeans2d/resize/frame%d.tif").c_str(), m).c_str(), dist);
     }
 
 

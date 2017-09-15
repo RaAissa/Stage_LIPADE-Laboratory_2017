@@ -15,12 +15,12 @@ std::string folder[] = {"Noir_et_Blanc", "Contours", "Flouter", "Negatif",
                         "Contours_Gras", "GrabCut", "Inpainting_Telea", "Criminisi" ,
                         "Inpainting_Telea_Image", "Inpainting_Criminisi_Image", "LucasKanade",
                         "LucasKanade_Direction_de_deplacement", "LucasKanade_Intensite_du_deplacement",
-                        "LucasKanade_Direction_Intensite", "GrabCut_LucasKanade", "Inpainting_Inverse","Analyse_de_Lucas_et_Kanade","Binarisation","Etoile","Etoile_Kmeans"};
+                        "LucasKanade_Direction_Intensite", "GrabCut_LucasKanade", "Inpainting_Inverse","Analyse_de_Lucas_et_Kanade","Binarisation","Etoile","Etoile_Kmeans","Evaluation"};
 //modifié
 int lis[]={50,100,300,500,1000};
 int listr[]={1,3,5,10,20,30};
 int listr1[]={0,1,2,3};
-int listr2[]={3,5,7,9,10,12,13,15,21,25,30,35,40,45,49,75,100,150,400};
+int listr2[]={3,5,7,9,10,12,13,15,21,25,30,35,40,45,49,75,100,150};
 int listr5[]={2,3,4,5,6,7,8,9,10,11,12};
 MaFenetre::MaFenetre() : QWidget(){
     positionSlider = 1;
@@ -45,7 +45,6 @@ MaFenetre::MaFenetre() : QWidget(){
     bouton_lancer->setFixedSize(100,30);
 
     //Modifié
-
 
 
     // lecture direct des tifs
@@ -99,14 +98,20 @@ MaFenetre::MaFenetre() : QWidget(){
 
     //Construction des labels pour les videos initiale et traitee
     image_initiale = QImage(100, 100, QImage::Format_ARGB32);
-
     image_initiale.fill(qRgb(0, 0, 0));
     label_videoInitiale = new QLabel("Vidéo initiale",this);
     label_videoInitiale->setPixmap(QPixmap::fromImage(image_initiale));
 
 
+    image_evaluation = QImage(100, 100, QImage::Format_ARGB32);
+    image_evaluation.fill(qRgb(0, 0, 0));
+    label_image_evaluation = new QLabel("Vidéo_évaluation",this);
+    label_image_evaluation->setPixmap(QPixmap::fromImage(image_evaluation));
+
+
+
 //    label_videoInitiale->setScaledContents(true);
-//           label_videoInitiale->adjustSize();
+//    label_videoInitiale->adjustSize();
 
 
     // label_videoInitiale->geometry().x
@@ -114,6 +119,19 @@ MaFenetre::MaFenetre() : QWidget(){
     image_traitee.fill(qRgb(0, 0, 0));
     label_videoTraitee = new QLabel("Vidéo traitée",this);
     label_videoTraitee->setPixmap(QPixmap::fromImage(image_traitee));
+
+
+    image_flot_optique = QImage(100, 100, QImage::Format_ARGB32);
+    image_flot_optique.fill(qRgb(0, 0, 0));
+
+      label_flot_optique = new QLabel("Vidéo f_optique",this);
+      label_flot_optique->setPixmap(QPixmap::fromImage(image_flot_optique));
+
+
+      image_K_means_nD_t = QImage(100, 100, QImage::Format_ARGB32);
+      image_K_means_nD_t.fill(qRgb(0, 0, 0));
+        label_K_means_nD_t = new QLabel("K_means",this);
+        label_K_means_nD_t->setPixmap(QPixmap::fromImage(image_K_means_nD_t));
 
     //Construction du slider de la vidéo
     lcd = new QLCDNumber(this);
@@ -181,6 +199,7 @@ MaFenetre::MaFenetre() : QWidget(){
     liste->addItem("Binaire");
     liste->addItem("Etoile");
     liste->addItem("Etoile_Kmeans");
+    liste->addItem("Evaluation");
     //
 
     QObject::connect(liste, SIGNAL(currentIndexChanged(int)),this, SLOT(afficher(int)));
@@ -236,11 +255,12 @@ MaFenetre::MaFenetre() : QWidget(){
     liste4->addItem("75");
     liste4->addItem("100");
     liste4->addItem("150");
-    liste4->addItem("400");
+
     QObject::connect(liste4, SIGNAL(currentIndexChanged(int)),this, SLOT(afficher4(int)));
      liste5 = new QComboBox(this);
+      liste5->setFont(QFont("Liberation Serif", 14));
     liste5->addItem("Kmeans Index:2");
-    liste5->setFont(QFont("Liberation Serif", 14));
+
     liste5->addItem("3");
     liste5->addItem("4");
     liste5->addItem("5");
@@ -258,10 +278,13 @@ MaFenetre::MaFenetre() : QWidget(){
      onglets = new QTabWidget(this);
      onglets->addTab(label_videoInitiale, "Image Originale");
      onglets->addTab(label_videoTraitee, "Image_traitée");
-     onglets->addTab(label_image_inpainting, "image inpaité");
-     onglets->addTab(label_videoInpainting, "vidéo inpaintée");
-    //Ajout des widgets au layout
+     onglets->addTab(label_image_inpainting, "Image inpaité");
+     onglets->addTab(label_videoInpainting, "Vidéo inpaintée");
+     onglets->addTab(label_flot_optique, "Flot optique");
+     onglets->addTab(label_K_means_nD_t, "Temporel resultat");
+     onglets->addTab(label_image_evaluation, "Evaluation");
 
+    //Ajout des widgets au layout
 
      layout = new QGridLayout;
      layout->addWidget(bouton_ouvrir,0,0);
@@ -272,7 +295,7 @@ MaFenetre::MaFenetre() : QWidget(){
      layout->addWidget(bouton_tiff, 0,5);
 
      layout1 = new QGridLayout;
-     onglets->setGeometry(10,50, 1700, 800);
+     onglets->setGeometry(5,50, 1840, 800);
      layout1->addWidget(onglets);
 
 //    layout->addWidget(label_videoInitiale, 1,0);
@@ -377,13 +400,17 @@ void MaFenetre::ouvrirDialogue(){
     taillevideo--;
     cout << "Taille de la video : " << taillevideo << endl;
     label_videoInitiale->setPixmap(QPixmap(QPixmap((nouveauDossier + "/frame1.tif").c_str())));
-    label_videoInitiale->setGeometry(5, 5, 200, 200);
+    label_videoInitiale->setGeometry(5, 70, 200, 200);
     slider->setRange(1, taillevideo);
 }
 
 //Modifié ouvrir Tiff
 void MaFenetre::ouvrirtiff(){
- allImages.clear();
+
+
+//    string commande = "python /home/aissa/Bureau/from_armand/courbe.py";
+//     system(commande.c_str());
+    allImages.clear();
     QString fichier1 = QFileDialog::getOpenFileName(this, "Ouvrir une image",QDir::homePath()+"/Téléchargements/", "Images (*.jpg *.png *.tif)");
     //Obtention le nom du chemin et du fichier avec l'extension
     QFileInfo fileInfo(fichier1);
@@ -457,7 +484,7 @@ slider->setRange(1, taillevideo);
             cout << "Fin de la lecture de la vidéo" << endl;
             break;
         }
-        // Sauvegarde de la trame dans un fichier
+        // Sauvegarde de la trame dans un fichieouton_ouvrirVideo->setFixedSize(150,30);r
         imwrite(cv::format((nouveauDossierVideo + "/frame%d.tif").c_str(),taillevideo2).c_str(), frame);
         imwrite(cv::format((nouveauDossierVideo + "/PNG/frame%d.png").c_str(),taillevideo2).c_str(), frame);
         cout<<"a5"<<endl;  cout<<"Z2"<<endl;
@@ -479,7 +506,7 @@ slider->setRange(1, taillevideo);
     cout << "Taille de la fenetre = " << dWidth << "x" << dHeight << endl;
     cout << "Taille de la video : " << taillevideo2 << endl;
     label_videoInpainting->setPixmap(QPixmap((nouveauDossierVideo + "/frame1.tif").c_str()));
-    label_videoInitiale->setGeometry(11, 11,100,100);
+    label_videoInitiale->setGeometry(30, 70,100,100);
 }
 
 //Slot du changement de la position du slider
@@ -540,6 +567,16 @@ void MaFenetre::afficher5(int position5){
 //Slot qui permet de lancer le traitement de la video
 
 void MaFenetre::lancer(){
+
+
+
+//    for(int u=3; u<4;u++){
+//        for(int x=12; x<14;x++){
+//            for(int z=0; z<2;z++){
+
+cout<<sizeof(listr5)<<endl;
+cout<<positionSwitch5<<endl;
+
     Mat Image1 =imread(nouveauDossier+ "/frame1.tif", CV_LOAD_IMAGE_COLOR);
     dWidth = Image1.cols, dHeight = Image1.rows;
     w = Image1.cols; h = Image1.rows;
@@ -553,9 +590,9 @@ void MaFenetre::lancer(){
     if(photo.exists()==0){
         while(true){
             Mat Image=imread(cv::format((nouveauDossier+ "/frame%d.tif").c_str(),ind+1).c_str(), CV_LOAD_IMAGE_COLOR);
-            int positionss=listr[positionSwitch2];
-            int positionwinsize=listr2[positionSwitch4];
-            int position_K=listr5[positionSwitch5];
+            int positionss=listr[positionSwitch2/*+u*/];
+            int positionwinsize=listr2[positionSwitch4/*+x*/];
+            int position_K=listr5[positionSwitch5/*+z*/];
             if(Image.data == NULL){
                 trait->run(positionwinsize,positionss,positiona,allImages,premiere_fois,positionSwitch,taillevideo, nouveauDossier, positionSlider, label_videoInitiale, points, this,imaFolder,points_image, dirPathImage, *label_image_inpainting, nouveauDossierVideo, points_video2, label_videoInpainting,position_K);
                 allImages.clear();
@@ -575,20 +612,38 @@ void MaFenetre::lancer(){
             ind++;
         }
     }
+//            }
+//        }
+//    }
     label_videoInitiale->setPixmap(QPixmap(cv::format((nouveauDossier + "/frame1.tif").c_str()).c_str()));
 
 
-    if(positionSwitch==25){
-label_videoInitiale->setPixmap(QPixmap(cv::format((nouveauDossier + "/frame1.tif").c_str()).c_str()));
+    if((positionSwitch==28)){
+
     if(w>768 && h>576){
-        label_videoTraitee->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/Kmeans2d/resize/frame0.tif").c_str()).c_str()));
-        label_videoTraitee->repaint();
+        label_K_means_nD_t->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/Kmeans2d/resize/frame0.tif").c_str()).c_str()));
+        label_K_means_nD_t->repaint();
     }else{
-        label_videoTraitee->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/Kmeans2d/frame0.tif").c_str()).c_str()));
-        label_videoTraitee->repaint();
+        label_K_means_nD_t->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/Kmeans2d/frame0.tif").c_str()).c_str()));
+        label_K_means_nD_t->repaint();
     }
 
+    }
+    if((positionSwitch==25)){
+
+    if(w>768 && h>576){
+        label_K_means_nD_t->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/Kmeans2d/resize/frame0.tif").c_str()).c_str()));
+        label_K_means_nD_t->repaint();
+        label_flot_optique->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/FlotOptique/resize/frame1.tif").c_str()).c_str()));
+        label_flot_optique->repaint();
     }else{
+        label_K_means_nD_t->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/Kmeans2d/frame0.tif").c_str()).c_str()));
+        label_K_means_nD_t->repaint();
+        label_flot_optique->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/FlotOptique/frame1.tif").c_str()).c_str()));
+        label_flot_optique->repaint();
+    }
+
+    }
         if(w>768 && h>576){
             label_videoTraitee->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/resize/frame1.tif").c_str()).c_str()));
             label_videoTraitee->repaint();
@@ -598,7 +653,7 @@ label_videoInitiale->setPixmap(QPixmap(cv::format((nouveauDossier + "/frame1.tif
         }
 
 
-    }
+
     std::cout <<  nouveauDossier << "/" << imaFolder[positionSwitch] << std::endl;
     cout << "Fin du traitement" << endl;
 }
@@ -616,17 +671,27 @@ void MaFenetre::play(){
             label_videoTraitee->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/frame%d.tif").c_str(), i).c_str()));
         }
 
-        if(positionSwitch==25){
-    label_videoInitiale->setPixmap(QPixmap(cv::format((nouveauDossier+"/frame%d.tif").c_str(), i).c_str()));
+        if(positionSwitch==25||positionSwitch==25){
+      label_K_means_nD_t->setPixmap(QPixmap(cv::format((nouveauDossier+"/frame%d.tif").c_str(), i).c_str()));
         if(w>768 && h>576){
-          label_videoTraitee->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/Kmeans2d/resize/frame%d.tif").c_str(), i).c_str()));
+            label_K_means_nD_t->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/Kmeans2d/resize/frame%d.tif").c_str(), i-1).c_str()));
 
         }else{
-            label_videoTraitee->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/Kmeans2d/frame%d.tif").c_str(), i).c_str()));
+              label_K_means_nD_t->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/Kmeans2d/frame%d.tif").c_str(), i-1).c_str()));
 
         }
+        }
+        if(positionSwitch==25){
+
+        if(w>768 && h>576){
+         label_flot_optique->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/FlotOptique/resize/frame%d.tif").c_str(), i).c_str()));
+
+        }else{
+              label_flot_optique->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/FlotOptique/frame%d.tif").c_str(), i).c_str()));
 
         }
+        }
+
         
         if(((positionSwitch == 19) || (positionSwitch == 20) || (positionSwitch == 21) || (positionSwitch == 22)) && ((positionSlider == taillevideo))){
              label_videoInitiale->setPixmap(QPixmap(cv::format((nouveauDossier+"/frame%d.tif").c_str(), i-1).c_str()));
@@ -636,6 +701,7 @@ void MaFenetre::play(){
                 label_videoTraitee->setPixmap(QPixmap(cv::format((nouveauDossier + "/" + imaFolder[positionSwitch] + "/frame%d.tif").c_str(), i-1).c_str()));
             }
         }
+
 
         if(waitKey(30) == 27){
             cout << "L'utilisateur a stoppé la lecture de la vidéo" << endl;
@@ -685,7 +751,7 @@ void MaFenetre::mousePressEvent(QMouseEvent *event){
     //point d'une trame
     if((point.x() >= label_videoInitiale->geometry().x()) && (point.x() <= (label_videoInitiale->geometry().x() + label_videoInitiale->width())) && point.y() >= label_videoInitiale->geometry().y() && (point.y() <= (label_videoInitiale->geometry().y() + label_videoInitiale->height()))){
         //    cout << "Image GrabCut" <<endl;
-        //    cout << "Point MouseEvent X avant calcul : " << point.x() << endl;
+        //    cout << "Point MouseEvent X avant outon_ouvrirVideo->setFixedSize(150,30);calcul : " << point.x() << endl;
         //    cout << "Point MouseEvent Y avant calcul : " << point.y() << endl;
         point.setX(point.x() - label_videoInitiale->geometry().x());
         point.setY(point.y() - label_videoInitiale->geometry().y() - difference_video1);

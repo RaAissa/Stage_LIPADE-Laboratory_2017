@@ -21,16 +21,34 @@ void Traitement::run(int&positionwinsize,int &positionSwitch1,int &position,vect
     Mat dst;
     int positiosw=positionSwitch1;
     int positiosw1=positionwinsize;
-    std::string traitement = imaFolder[positionSwitch];
-    cout << "Traitement : " << traitement << endl;
-    cout << traitement<< endl;
+
+
+
     bool premiere_fois2=premiere_fois;
-    //Creation du repertoire permettant de sauvegarder les trames en NVG
+
+    std::ostringstream pixels;
+        long num = positiosw;
+        pixels << num;
+        std::ostringstream winsize;
+            long num1 = positionwinsize;
+            winsize<< num1;
+            std::ostringstream centroides;
+                long num2 = indice_k;
+                centroides<< num2;
+
+     std::string traitement = imaFolder[positionSwitch] +"_"+pixels.str()+"pix"+"_"+winsize.str()+"wins"+"_"+centroides.str()+"_"+"Centroides";
+       cout << traitement<< endl;
+     //Creation du repertoire permettant de sauvegarder les trames en NVG
 if (premiere_fois==true){
+
+
+
+
+                cout << "Traitement : " << traitement << endl;
     Dossier::creerDossier(nouveauDossier + "/" +traitement);
     cout << "Cree1"<< endl;
    //a decocher
-  Dossier::creerDossier(nouveauDossier + "/" +traitement + "/resize");
+  Dossier::creerDossier(nouveauDossier + "/" +traitement+"/resize");
   //cout << "Cree2 "<< endl;
 
     premiere_fois=false;
@@ -595,6 +613,19 @@ Mat imgref=imread("/home/aissa/Bureau/out5/frame1.tif",CV_LOAD_IMAGE_COLOR);
                //E->runEtoile(positiosw,premiere_fois2,all_Images,position,taillevideo, nouveauDossier, traitement);
                all_Images.clear();
                allImages.clear();
+               delete E;
+               break;
+   }
+    case 29:{
+
+               int positiosw=positionSwitch1;
+               all_Images=allImages;
+              Evaluation_class *E = new Evaluation_class();
+               E->runevaluation(positiosw,premiere_fois2,all_Images,position,taillevideo, nouveauDossier, traitement);
+               //E->runEtoile(positiosw,premiere_fois2,all_Images,position,taillevideo, nouveauDossier, traitement);
+               all_Images.clear();
+               allImages.clear();
+
                delete E;
                break;
    }
