@@ -2,7 +2,6 @@
  * Auteur: Raouf AISSA
  * Date de creation: 01/03/2017
  */
- 
 #include "analyseletk.h"
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -25,7 +24,6 @@ Analyseletk::Analyseletk()
 //    }
 //   double inertie==distance/nombre de points;
 //}
-
 
 void Analyseletk::moyenne_de_fenetre(Mat & mat,int kernel_choice){
     Mat kern = (Mat_<char>(5, 5) << 1, 1, 1, 1, 1,
@@ -227,8 +225,6 @@ float somme=0;
             if(A<min){
                 min=A;
             }
-
-
             MATRICE.at<float>(i,0)=A;
             u=k;
             int k=u+pixels;
@@ -248,14 +244,13 @@ int moy=(int)(somme/features_found.size());
             for(int x = 0 ; x < MATRICE555.cols ; x++){
               MATRICE555.at<float>(y,x)=(float)MATRICE.at<float>(indice554,0);
               indice554++;
-
             }
         }
        cout<<"MATRICE444"<<endl;
-        MATRICE555.convertTo(MATRICE444, CV_8UC1);
+       MATRICE555.convertTo(MATRICE444, CV_8UC1);
        cout<<"MATRICE4441"<<endl;
-        threshold(MATRICE444,MATRICE444,0,moy,THRESH_BINARY|THRESH_OTSU);
-            cout<<"MATRICE4442"<<endl;
+       threshold(MATRICE444,MATRICE444,0,moy,THRESH_BINARY|THRESH_OTSU);
+       cout<<"MATRICE4442"<<endl;
    MATRICE444.convertTo(MATRICE555, CV_32F);
    float moy1=(float)(somme/features_found.size());
    cout<<"MATRICE4444"<<endl;
@@ -324,32 +319,17 @@ MATRICE444.release();
                         //}
             }
         }
-
-
-        cout<<"entrée"<<endl;
-
-
-
-
-
-
-
-
-        Rect const roi_initial_location((int)imgA.cols/2,(int)imgA.rows/2,(int) imgA.cols/2, (int)imgA.rows/2);
+     cout<<"entrée"<<endl;
+     Rect const roi_initial_location((int)imgA.cols/2,(int)imgA.rows/2,(int) imgA.cols/2, (int)imgA.rows/2);
          cv::Mat roi =  img55(roi_initial_location).clone();
          //mean shift
          cv::TermCriteria criteria(cv::TermCriteria::COUNT +
                                      cv::TermCriteria::EPS,
                                      10, 0.01);
-
-
-
-
          cv::Rect mean_shift_window = roi_initial_location;
                 cv::meanShift( img55, mean_shift_window, criteria);
                 float r=0, g =0, b=0;
                 float H = 0;
-
                 Mat Distms(img55.rows, img55.cols, CV_8UC3);
                 normalize(img55,img55,0,360,NORM_MINMAX);
                 for(int y = 0 ; y < img55.rows ;  y = y +pixels){
@@ -357,11 +337,9 @@ MATRICE444.release();
                 if(img55.at<float>(y,x)!=0){
                 H =(float) img55.at<float>(y,x);
                 LucasKanadeCarteDeChaleur *carte = new LucasKanadeCarteDeChaleur();
-
                 carte->HSVtoRGB(&r, &g, &b, H);
                  rectangle(Distms, Rect(x, y,pixels,pixels),Scalar(b *255,g *255,r *255),-1 );
                 }else{
-
                     rectangle(Distms, Rect(x, y,pixels,pixels),Scalar(0,0,0),-1 );
                 }
                 }
@@ -394,35 +372,23 @@ MATRICE444.release();
          normalize(MATRICE.col(1),MATRICE.col(1),min,max,NORM_MINMAX);
          normalize(MATRICE.col(2),MATRICE.col(2),min,max,NORM_MINMAX);
          normalize(MATRICE.col(3),MATRICE.col(3),min,max,NORM_MINMAX);
-
-
-
           //normalize(MATRICE,MATRICE,0.0,1.0,NORM_MINMAX);
 
 //         imwrite(cv::format("/home/aissa/Bureau/Meanshift%d.tif", 1).c_str(), img);
 //
         Kmeans_1D(imgA,MATRICE,nouveauDossier,traitement,pixels,centers1,ind_k);
 //
-
         cout<<"sorti"<<endl;
-
     }else{
         compt++;
     }
-
 MATRICE.release();
 MATRICE_2.release();
-
-
-
 ///////////////////////////
 
     //The End of part 1
 
 //////////////////////////
-
-
-
 int size = 0; bool premiere_trame=true;
 int size2=(int)(features_found.size() * (allImages.size()-1));
 Mat MATRICE_1;
@@ -435,8 +401,6 @@ int indice_3=0;
 cout<<"ici14"<<endl;
 double max=0,min=180000;
 for(int m = 1;m <allImages.size();m++){
-
-    cout<<"ici"<<m<<endl;
     bool seuil=true;
     ofstream fichier ("/home/aissa/Bureau/Deplacement.txt", ios::out | ios::app);
     ofstream fichier1("/home/aissa/Bureau/Delacement_axe_X.txt", ios::out | ios::app);
@@ -488,9 +452,6 @@ for(int m = 1;m <allImages.size();m++){
                          // MATRICE.at<float>(indice,1)=(float)(h_image.at<uchar>(y,x)*2);
                          //                     MATRICE.at<float>(indice,1)=(float)s_image.at<uchar>(y,x);
                                               MATRICE_1.at<float>(indice_3,4)=(float)s_image.at<uchar>(y,x)/255;
-
-
-
                         // MATRICE_1.at<float>(indice_3,4)=(float)B_image.at<uchar>(y,x)/255;
 //                         MATRICE_1.at<float>(indice_3,5)=(float)G_image.at<uchar>(y,x)/255;
 //                         MATRICE_1.at<float>(indice_3,6)=(float)R_image.at<uchar>(y,x)/255;
@@ -499,8 +460,6 @@ for(int m = 1;m <allImages.size();m++){
                  }
              }
       //   premiere_fois=false;
-
-
 ////    }else{
 //             for(int i=0;i<cornersC.size();i++){
 //                 cornersA.push_back(cornersC[i]);
@@ -511,26 +470,17 @@ for(int m = 1;m <allImages.size();m++){
          for(int y = 0 ; y < imgB.rows ;  y = y +pixels){
              for(int x = 0 ; x < imgB.cols ;  x = x +pixels){
                  Vec3b intensite1= imgB.at<Vec3b>(y,x);
-
                      cornersB.push_back(Point(x,y));
-
              }
          }
 
          std::vector<float> feature_errors;
-
          calcOpticalFlowPyrLK(imgA, imgB, cornersA, cornersB, features_found, feature_errors, Size( win_size, win_size),1, cvTermCriteria(CV_TERMCRIT_ITER | CV_TERMCRIT_EPS, 30, 0.01),0);
-
-
 //         for(int i=0;i<cornersB.size();i++){
 //             cornersC.push_back(cornersB[i]);
 //         }
-
   double  max_x=0,max_y=0;
-
-
          int compteur_colonnes=0;
-
          float A,A1,B,C;
          int y=0;
          int k;
@@ -546,22 +496,15 @@ float somme2=0;
                  fichier2<<""<<endl;
                  fichier2<<"image " <<m<<" "<<endl;
              }
-
              Point p0( ceil( cornersA[i].x ), ceil( cornersA[i].y ) );
              Point p1( ceil( cornersB[i].x ), ceil( cornersB[i].y ) );
              Vec4i p01(p0.x, p0.y, p1.x, p1.y);
-
              //double dist_euclidienne = sqrt((p0.x-p1.x)*(p0.x-p1.x) +  (p0.y-p1.y)*(p0.y-p1.y));
              //if(dist_euclidienne>=0){
              int dist_euclidienne_int = (int)sqrt((p0.x-p1.x)*(p0.x-p1.x)+(p0.y-p1.y)*(p0.y-p1.y));
              double deplacement = (double)sqrt((p0.x-p1.x)*(p0.x-p1.x)+(p0.y-p1.y)*(p0.y-p1.y));
-
              double deplacementX=(double)sqrt((p0.x-p1.x)*(p0.x-p1.x) );
              double deplacementY=(double)sqrt((p0.y-p1.y)*(p0.y-p1.y) );
-
-
-
-
              //A=(float)deplacement/max;
              A=(float)deplacement;
 //             A1=(float)deplacement/max;
@@ -569,10 +512,8 @@ float somme2=0;
              //C=(float)deplacementY/max_y;
              B=(float)deplacementX;
              C=(float)deplacementY;
-
-                somme2=somme2+A;
+             somme2=somme2+A;
              label=distance((int)deplacement, m, centers1,(int)((taillevideo/2)-1));
-
              if(premiere_trame==true){
                  if(A>max){
                      max=A;
@@ -593,42 +534,14 @@ float somme2=0;
                  Labels.push_back(label);
                  MATRICE_1.at<float>(i+size,0)=A;
                  MATRICE_1.at<float>(size+i,1)=(float)(m+1)*dt;
-
              }
              u=k;
-
              int k=u+pixels;
-
              if(A>80&&A<250&&seuil==true){
              seuil=false;
                  fichier61<<m+1<<endl;
                  fichier62<<A<<endl;
-
-
              }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
              fichier<<A<<" ";
              fichier1<<B<<" ";
              fichier2<<C<<" ";
@@ -643,7 +556,6 @@ float somme2=0;
              //std::cout << "Not found\n";
              histogramme.insert(pair<int,int>(dist_euclidienne_int, 1));
              }
-
              if(compteur_colonnes==(int)imgA.cols/pixels){
                  fichier<<""<<endl;
                  fichier1<<""<<endl;
@@ -653,18 +565,8 @@ float somme2=0;
                  compteur_colonnes++;
              }
          }
-
-
-
-
-
-
-
-
-
-
          moy2=(int)(somme2/features_found.size());
-               int indice5541=0;
+         int indice5541=0;
                cout<< moy2<<endl;
                 cout<< "moy"<<endl;
                Mat MATRICE5551((int)(imgA.rows/pixels),(int)(imgA.cols/pixels),CV_32F);
@@ -682,36 +584,24 @@ float somme2=0;
                  threshold(MATRICE4441,MATRICE4441,0,moy2,THRESH_BINARY|THRESH_OTSU);
                      cout<<"MATRICE4442"<<endl;
             MATRICE4441.convertTo(MATRICE5551, CV_32F);
-
             int indice_571=0;
                     for(int y = 0 ; y < MATRICE4441.rows ;  y ++){
                         for(int x = 0 ; x < MATRICE4441.cols ;  x ++){
-
-
-
                             if(MATRICE5551.at<float>(y,x)==0.0){
                               MATRICE_1.at<float>(indice_571+size,0)=0;
-
                           }
                                 //cout<<MATRICE.at<float>(indice_57,0)<<" ";
                           indice_571++;
                         }
             //            cout<<" "<<endl;
                     }
-
-
-
-
          size=size+features_found.size();
-
          premiere_trame=false;
-
          cout<<"sorti"<<endl;
          allDistances.push_back(distanceImage);
      }else{
          compt++;
      }
-
      fichier.close();
      fichier1.close();
      fichier2.close();
@@ -728,7 +618,6 @@ Mat MATRICE_0;
 //   normalize(MATRICE1_chanel[3],MATRICE1_chanel[3],0.0,1.0,NORM_MINMAX);
 //   merge(MATRICE1_chanel,MATRICE_1);
 //normalisation min max
-
 normalize(MATRICE_1.col(3),MATRICE_1.col(3),min,max,NORM_MINMAX);
  normalize(MATRICE_1.col(2),MATRICE_1.col(2),min,max,NORM_MINMAX);
   normalize(MATRICE_1.col(4),MATRICE_1.col(4),min,max,NORM_MINMAX);
@@ -806,7 +695,6 @@ for(int m =0 ; m < allDistances.size() ; m++){
                     imwrite(cv::format((nouveauDossier + "/" + traitement + "/FlotOptique/resize/frame%d.png").c_str(), position+m).c_str(), imgC);
                     dist = Mat::zeros(imgC.size(), CV_8UC3);
                     addWeighted(img, 0.5, imgC, 0.5, 0.0, dist);
-
                     if(dist.cols>768 && dist.rows>576){
                         cv::resize(dist, dst,imgref.size());
                         imwrite(cv::format((nouveauDossier + "/" + traitement +  "/resize/frame%d.tif").c_str(), position+m+t+t1+1).c_str(), dst);
@@ -911,10 +799,6 @@ void Analyseletk::Kmeans_1D(cv::Mat &img1,cv::Mat&confusion,string nouveauDossie
     //centers.release();
     //centers1.release();
 }
-
-
-
-
 //code Kmeans_ND
 void Analyseletk::Kmeans_ND(vector<Mat>allImages,std::vector<int>&labels,int size_of_features,cv::Mat &img1,cv::Mat&confusion,string nouveauDossier, string traitement,int pixels,cv::Mat&centers1,int &ind_k){
     const int MAX_CLUSTERS =ind_k;
@@ -970,9 +854,7 @@ void Analyseletk::Kmeans_ND(vector<Mat>allImages,std::vector<int>&labels,int siz
     labels.clear();
 }
 
-
 // Code Trouver des blobs
-
 //void Analyseletk::FindBlobs(const cv::Mat &binary, std::vector < std::vector<cv::Point2i> > &blobs){
 //    blobs.clear();
 //    cv::Mat label_image;
@@ -1017,9 +899,7 @@ int Analyseletk::distance(int x,int frame, Mat centers1,int midle_size){
     centers1.release();
     return label;
 }
-
 //code centre de gravité du Nuage pour évaluation
-
 Point3d Analyseletk::barycentre_nuage(vector<cv::Point2i>b,int m){
     int somme_x=0,somme_y=0,N=0,somme_t=0;
     for(int y=0;y<m;y++){
